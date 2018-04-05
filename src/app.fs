@@ -292,7 +292,12 @@ let infoFooter =
           R.a [ Href "http://todomvc.com" ] [ R.str "TodoMVC" ]]
     ]
 
+[<Import("*", from = "react-dom")>]
+let internal ReactDOM = jsNative<obj>
+
 let view model dispatch =
+  let dispatch x =
+    ReactDOM?flushSync(fun () -> dispatch x) |> ignore
   R.div
     [ ClassName "todomvc-wrapper"]
     [ R.section
